@@ -1,0 +1,2 @@
+開発中はngrokでトンネルを立ててsettings.pyのNGROK_URLに設定する。
+Line DeveloppersのLiff、MessagingAPIのエンドポイントも変更する。
