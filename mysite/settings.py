@@ -3,6 +3,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from decouple import config
 from dj_database_url import parse as dburl
+import dj_database_url
 
 load_dotenv()
 
@@ -12,9 +13,10 @@ SECRET_KEY = 'django-insecure-qw43jouzo_kilno^#iq9%!el$*z=snd@%p3fo)i@c^o463@2o7
 
 # トンネル起動時にngrokのURLを追加しないとログインできない
 NGROK_URL = 'https://5d65-60-56-149-126.ngrok-free.app'
+HEROKU_DEPLOY_URL = ""
 
 DEBUG = True
-
+# ALLOWED_HOSTS = [HEROKU_DEPLOY_URL, NGROK_URL, 'localhost', '127.0.0.1']
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [NGROK_URL]
 
@@ -69,7 +71,8 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
 
 DATABASES = {
-    "default": config("DATABASE_URL", default=default_dburl, cast=dburl),
+    # "default": config("DATABASE_URL", default=default_dburl, cast=dburl),
+    'default': dj_database_url.config(default='postgres://localhost')
 }
 
 AUTH_PASSWORD_VALIDATORS = [

@@ -152,7 +152,7 @@ def get_disabled_dates(year, store, staff_id, week_dates):
 
     store_holidays = [h.strftime("%Y-%m-%d") for h in store_holidays]
 
-    # スタッフの休暇を取得
+    # スタッフの休暇を取��
     staff_holidays = StaffHoliday.objects.filter(
         holiday__year=year, staff_id=staff_id
     ).values_list("holiday", flat=True)
