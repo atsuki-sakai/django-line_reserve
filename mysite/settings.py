@@ -2,20 +2,20 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 from decouple import config
-from dj_database_url import parse as dburl
 import dj_database_url
 
+# .envファイルを読み込む
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-qw43jouzo_kilno^#iq9%!el$*z=snd@%p3fo)i@c^o463@2o7'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'secret-key')
 
 # トンネル起動時にngrokのURLを追加しないとログインできない
 NGROK_URL = 'https://5d65-60-56-149-126.ngrok-free.app'
 HEROKU_DEPLOY_URL = ""
 
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 # ALLOWED_HOSTS = [HEROKU_DEPLOY_URL, NGROK_URL, 'localhost', '127.0.0.1']
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [NGROK_URL]
@@ -68,13 +68,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "mysite.wsgi.application"
 
-# default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
+# デフォルトのSQLiteデータベースURL
+default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
 
+# DATABASE_URL環境変数が設定されている場合はPostgreSQLを使用し、設定されていない場合はSQLiteを使用
 DATABASES = {
-    # "default": config("DATABASE_URL", default=default_dburl, cast=dburl),
-    'default': dj_database_url.config(default='postgres://localhost')
+    'default': dj_database_url.config(default=config('DATABASE_URL', default=default_dburl))
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -120,14 +120,9 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 
-
-# CHANNEL_ACCESS_TOKEN = os.environ.get("CHANNEL_ACCESS_TOKEN")
-# CHANNEL_SECRET = os.environ.get("CHANNEL_SECRET")
-# LIFF_ID = os.environ.get("LIFF_ID")
-
-CHANNEL_ACCESS_TOKEN="E3+3MMeFZoBbX/F1eVwDADjxntTTV+a0/FD9ioU7zj3vjecnSKXlxaumhxccgJQLwcnBkb0tdy7G7UWSJGXChMkjjg4eO1ENXvUR3cvEK4rTQiQ69/sFjneILNsqVQgk9Y+QqjUZIjh/geT9wKIxqQdB04t89/1O/w1cDnyilFU="
-CHANNEL_SECRET="d982051de947fd76b0e12577604b2297"
-LIFF_ID="2005226893-q0AxkgmP"
+CHANNEL_ACCESS_TOKEN = config('CHANNEL_ACCESS_TOKEN', default='channel-access-token')
+CHANNEL_SECRET = config('CHANNEL_SECRET', default='channel-secret')
+LIFF_ID = config('LIFF_ID', default='liff-id')
 
 # デバッグ用の出力
 print(f"CHANNEL_ACCESS_TOKEN: {CHANNEL_ACCESS_TOKEN}")
