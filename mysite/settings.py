@@ -68,11 +68,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "mysite.wsgi.application"
 
+# default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
+
+# DATABASES = {
+#     # "default": config("DATABASE_URL", default=default_dburl, cast=dburl),
+#     'default': dj_database_url.config(default='postgres://localhost')
+# }
+
 default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
 
 DATABASES = {
-    # "default": config("DATABASE_URL", default=default_dburl, cast=dburl),
-    'default': dj_database_url.config(default='postgres://localhost')
+    'default': dj_database_url.config(default=config('DATABASE_URL', default=default_dburl))
 }
 
 AUTH_PASSWORD_VALIDATORS = [
