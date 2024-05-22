@@ -11,14 +11,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'secret-key')
 
-# トンネル起動時にngrokのURLを追加しないとログインできない
-NGROK_URL = 'https://5d65-60-56-149-126.ngrok-free.app'
-HEROKU_DEPLOY_URL = ""
-
 DEBUG = config('DEBUG', default=True, cast=bool)
-# ALLOWED_HOSTS = [HEROKU_DEPLOY_URL, NGROK_URL, 'localhost', '127.0.0.1']
-ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = [NGROK_URL]
+
+# トンネル起動時にngrokのURLを追加しないとログインできない(https通信のみ受け付けるため)
+NGROK_URL = ''
+DEPLOY_URL = NGROK_URL if DEBUG else "https://django-liff-1a314c4c4778.herokuapp.com"
+ALLOWED_HOSTS = [DEPLOY_URL, 'localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = [DEPLOY_URL]
 
 INSTALLED_APPS = [
     "django.contrib.admin",

@@ -206,9 +206,8 @@ def send_new_menu_message(line_id):
                         "action": {
                             "type": "uri",
                             "label": "予約メニュー",
-                            # これでは古いngrokのURLが設定されてまう
                             # "uri": "https://liff.line.me/2004759968-qEJg32MP",
-                            "uri": settings.NGROK_URL + "/line/",
+                            "uri": settings.DEPLOY_URL + "/line/",
                         },
                         "style": "primary",
                     }
