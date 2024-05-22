@@ -206,8 +206,8 @@ def send_new_menu_message(line_id):
                         "action": {
                             "type": "uri",
                             "label": "予約メニュー",
-                            # "uri": "https://liff.line.me/2004759968-qEJg32MP",
-                            "uri": settings.DEPLOY_URL + "/line/",
+                            "uri": "https://liff.line.me/2004759968-qEJg32MP",
+                            # "uri": settings.DEPLOY_URL + "/line/",
                         },
                         "style": "primary",
                     }
