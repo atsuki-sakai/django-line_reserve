@@ -16,7 +16,7 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 # トンネル起動時にngrokのURLを追加しないとログインできない(https通信のみ受け付けるため)
 NGROK_URL = ''
 DEPLOY_URL = NGROK_URL if DEBUG else "https://django-liff-1a314c4c4778.herokuapp.com"
-ALLOWED_HOSTS = [DEPLOY_URL, 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = [DEPLOY_URL]
 
 INSTALLED_APPS = [
