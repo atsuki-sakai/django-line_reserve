@@ -17,7 +17,7 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 NGROK_URL = ''
 DEPLOY_URL = NGROK_URL if DEBUG else "https://django-liff-1a314c4c4778.herokuapp.com"
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = [DEPLOY_URL]
+CSRF_TRUSTED_ORIGINS = ["https://django-liff-1a314c4c4778.herokuapp.com"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
