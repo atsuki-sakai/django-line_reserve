@@ -13,10 +13,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'secret-key')
 
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-# トンネル起動時にngrokのURLを追加しないとログインできない(https通信のみ受け付けるため)
+# トンネル起動時にngrokのURLを追加しないとログインできない(https通信のみ受け付けるため) * https://django-liff-1a314c4c4778.herokuapp.com * 
 DEPLOY_URL = "https://django-liff-1a314c4c4778.herokuapp.com"
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = [DEPLOY_URL]
+# CSRF_TRUSTED_ORIGINS = [DEPLOY_URL]
 
 INSTALLED_APPS = [
     "django.contrib.admin",

@@ -27,6 +27,7 @@ from line.line_messages import (
     send_cancel_reservation_message,
 )
 from django.utils import timezone
+import logging
 
 line_bot_api = LineBotApi(settings.CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(settings.CHANNEL_SECRET)
@@ -152,7 +153,7 @@ def get_disabled_dates(year, store, staff_id, week_dates):
 
     store_holidays = [h.strftime("%Y-%m-%d") for h in store_holidays]
 
-    # スタッフの休暇を取��
+    # スタッフの休暇を取
     staff_holidays = StaffHoliday.objects.filter(
         holiday__year=year, staff_id=staff_id
     ).values_list("holiday", flat=True)
@@ -341,6 +342,8 @@ def send_text_message(line_id, message):
     except Exception:
         print("テキストメッセージを送信できませんでした")
 
+logger = logging.getLogger(__name__)
+
 class CallbackView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, *args, **kwargs):
@@ -350,10 +353,13 @@ class CallbackView(View):
         signature = request.META["HTTP_X_LINE_SIGNATURE"]
         body = request.body.decode("utf-8")
 
+        logger.info(f"Request body: {body}")
+        logger.info(f"Signature: {signature}")
+
         try:
             handler.handle(body, signature)
         except InvalidSignatureError:
-            print("Invalid signature error")
+            logger.error("Invalid signature")
             return HttpResponseBadRequest()
         except LineBotApiError as e:
             print("LineBotApiError:", e)
@@ -397,7 +403,7 @@ class CallbackView(View):
     # テキストメッセージ
     @handler.add(MessageEvent, message=TextMessage)
     def text_message(event):
-        print(event.message.text)
+        logger.info(f"Received message: {event.message.text}")
         try:
             # LINE ID取得
             line_id = event.source.user_id
